@@ -4,7 +4,6 @@ import django.contrib.postgres.fields
 from django.db import migrations, models
 import uuid
 
-
 class Migration(migrations.Migration):
 
     initial = True
@@ -17,14 +16,13 @@ class Migration(migrations.Migration):
             name='Transaction',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('program', models.TextField(unique=True)),
-                ('bank', models.TextField(unique=True)),
+                # ('program', models.ForeignKey(to='Program')),
+                ('program', models.UUIDField()),
+                # ('bank', models.ForeignKey(to='Bank')),
+                ('bank', models.UUIDField()),
                 ('country', models.TextField(unique=True)),
+                ('is_eligible', models.BooleanField(default=True)),
             ],
         ),
     ]
 
- # TODO fk constraints:
- # - only valid program
- # - only valid bank
- # - only such a country that is valid for bank
