@@ -1,3 +1,4 @@
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework import status, mixins, serializers, viewsets
 
@@ -51,7 +52,7 @@ class TransactionViewSet(
 
         if error is not None:
             logger.error(error)
-            return Response(error, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError(error, code=400)
 
         serializer.save(country=country, program=program[0].id, bank=bank[0].id)
 
