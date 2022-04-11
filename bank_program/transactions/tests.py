@@ -47,7 +47,7 @@ def test_bank_program_eligibility(rest_client):
     assert result["name"] == data["name"]
     program = program_models.Program.objects.get(name=program_name)
 
-    # Check eligibility
+    # Check eligibility - positive
     url = reverse("transactions-list")
     data = {
         "country": "ES",
@@ -59,3 +59,14 @@ def test_bank_program_eligibility(rest_client):
     assert response.status_code == status.HTTP_201_CREATED
     result = response.data
     assert result["is_eligible"] is True
+
+    # Check eligibility - negative: invalid bank
+    url = reverse("transactions-list")
+    data = {
+        "country": "ES",
+        "currency": "EUR",
+        "program": program_name,
+        "bank": "no such bank",
+    }
+    response = rest_client.post(url, data)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
