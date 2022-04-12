@@ -12,13 +12,15 @@ logger = logging.getLogger(__name__)
 
 
 class TransactionSerializer(serializers.Serializer):
-    is_eligible = serializers.BooleanField(default=True)
+    is_eligible = serializers.BooleanField()
 
     def create(self, validated_data):
         return models.Transaction.objects.create(
             program=validated_data["program"],
             bank=validated_data["bank"],
-            country=validated_data["country"]
+            country=validated_data["country"],
+            error=validated_data["error"],
+            is_eligible=validated_data["is_eligible"]
         )
 
     def update(self, instance, validated_data):
@@ -52,7 +54,6 @@ class TransactionViewSet(
 
         if error is not None:
             logger.error(error)
-            raise ValidationError(error, code=400)
 
-        serializer.save(country=country, program=program[0].id, bank=bank[0].id)
+        serializer.save(country=country, program=program_name, bank=bank_name, error=error, is_eligible=(error is None))
 

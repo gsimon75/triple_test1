@@ -69,7 +69,9 @@ def test_bank_program_eligibility(rest_client):
         "bank": "no such bank",
     }
     response = rest_client.post(url, data)
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.status_code == status.HTTP_201_CREATED
+    result = response.data
+    assert result["is_eligible"] is False
 
     # Check eligibility - negative: invalid program
     url = reverse("transactions-list")
@@ -80,7 +82,9 @@ def test_bank_program_eligibility(rest_client):
         "bank": bank_name,
     }
     response = rest_client.post(url, data)
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.status_code == status.HTTP_201_CREATED
+    result = response.data
+    assert result["is_eligible"] is False
 
     # Check eligibility - negative: invalid currency
     url = reverse("transactions-list")
@@ -91,7 +95,9 @@ def test_bank_program_eligibility(rest_client):
         "bank": bank_name,
     }
     response = rest_client.post(url, data)
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.status_code == status.HTTP_201_CREATED
+    result = response.data
+    assert result["is_eligible"] is False
 
     # Check eligibility - negative: invalid country
     url = reverse("transactions-list")
@@ -102,4 +108,6 @@ def test_bank_program_eligibility(rest_client):
         "bank": bank_name,
     }
     response = rest_client.post(url, data)
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.status_code == status.HTTP_201_CREATED
+    result = response.data
+    assert result["is_eligible"] is False
