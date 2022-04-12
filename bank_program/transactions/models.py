@@ -12,5 +12,5 @@ class Transaction(models.Model):
     program = models.UUIDField()
     # bank = models.ForeignKey(Bank, on_delete=models.CASCADE)
     bank = models.UUIDField()
-    country = models.TextField(unique=True)
+    country = models.TextField()
     is_eligible = models.BooleanField(default=True)

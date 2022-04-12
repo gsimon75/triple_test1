@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('program', models.UUIDField()),
                 # ('bank', models.ForeignKey(to='Bank')),
                 ('bank', models.UUIDField()),
-                ('country', models.TextField(unique=True)),
+                ('country', models.TextField()),
                 ('is_eligible', models.BooleanField(default=True)),
             ],
         ),
